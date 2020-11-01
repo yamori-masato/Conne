@@ -1,0 +1,103 @@
+import React from 'react'
+import styled, { css } from "styled-components";
+import Piece from './Piece';
+
+import { DragPreviewImage, useDrag } from 'react-dnd'
+import { ItemTypes } from '../react-dnd/itemType'
+import { getEmptyImage } from 'react-dnd-html5-backend';
+
+import { dragNext } from '../actions'
+import { connect } from 'react-redux'
+
+
+// const NextStyle = styled.div(props => css`
+
+//     // 真ん中の要素を基準にする(コンポーネント思考的には親のプロパティで位置調整するべき)
+//     &:nth-child(2){
+//         position: absolute;
+//         left: 50%;
+//         transform: translateX(-50%);
+//     }
+// `)
+
+const getNextStyles = (props, isDragging) => {
+    const opacity = isDragging ? 0.3 : 1
+    const display = props.direction === 'row' ? 'flex' : 'block'
+
+    return {
+        opacity: opacity,
+        display: display,
+        position: 'relative',
+
+    }
+}
+
+const BlockStyle = styled.div(props => css`
+    height: calc(400px * 0.125);
+    width: calc(400px * 0.125);
+    position: relative;
+    border: solid 1px;
+
+`)
+
+const Block = (props) => {
+
+    return (
+        <BlockStyle >{props.children}</BlockStyle>
+    )
+}
+
+
+const renderBlock = (props) => {
+    // idは、縦向きは上下、横向きは左右の順で0~1
+    let res = []
+    for (let i = 0; i <= 1; i++) {
+        res.push(
+            <Block key={i} id={i} {...props}>
+                <Piece code={props.value[i]}></Piece>
+            </Block>
+        )
+    }
+    return res
+}
+
+
+const Next = (props) => {
+    const [{ isDragging }, ref, preview] = useDrag({
+        item: {
+            type: ItemTypes.NEXT,
+        },
+        begin: (monitor)=>{props.dragNext(props.direction, props.value)},
+        collect: (monitor) => ({
+            isDragging: !!monitor.isDragging(),
+        }),
+    })
+
+
+    return (        
+        <>
+        <DragPreviewImage connect={preview} src={getEmptyImage().src}></DragPreviewImage>
+
+        {/* <NextStyle direction={direction} dragging={isDragging} ref={ref} >
+            {renderBlock(props)}
+        </NextStyle> */}
+            
+            <div style={getNextStyles(props,isDragging)} ref={ref}>
+                {renderBlock(props)}
+            </div>
+        </>
+    )
+}
+
+
+function mapStateToProps(store) {
+    return store.next
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        dragNext: (direction, value) => { dispatch(dragNext(direction, value)) },
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Next)
