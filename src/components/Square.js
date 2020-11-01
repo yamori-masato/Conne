@@ -5,7 +5,8 @@ import Overlay from './Overlay'
 import { useDrop } from 'react-dnd'
 import { ItemTypes } from '../react-dnd/itemType'
 
-
+import { dropNext } from '../actions'
+import { connect } from 'react-redux'
 
 // pieceとoverlay(dnd時のUI)を保持するコンポーネント
 
@@ -18,11 +19,15 @@ const SquareStyle = styled.div`
 `
 
 
-const Square = ({ x, y, children }) => {
+const Square = (props) => {
+    const {x,y} = props
+    const { direction, value } = props.next.selectedNext
+    const { board } = props.board
+
     const [{ isOver, canDrop }, drop] = useDrop({
-        accept: ItemTypes.NEXT,     // itemオブジェクト
-        drop: () => {}, // collect関数
-        canDrop: () => true,
+        accept: ItemTypes.NEXT,  // itemオブジェクト
+        drop: (item, monitor) => { props.dropNext(x,y,direction,value,board) }, // collect関数
+        canDrop: (item, monitor) => true,
         collect: monitor => ({
             isOver: !!monitor.isOver(),   //hover
             canDrop: !!monitor.canDrop(),
@@ -31,11 +36,23 @@ const Square = ({ x, y, children }) => {
 
     return (
         <SquareStyle ref={drop}>
-            {children}
+            {props.children}
 			{isOver && !canDrop && <Overlay color="red" />}
 			{/* {!isOver && canDrop && <Overlay color="yellow" />} */}
 			{isOver && canDrop && <Overlay color="green" />}
         </SquareStyle>
     )
 }
-export default Square
+
+
+function mapStateToProps(store) {
+    return store
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        dropNext: (x,y,direction,value,board) => { dispatch(dropNext(x,y,direction,value,board)) },
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Square)

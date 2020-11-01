@@ -64,14 +64,14 @@ const renderBlock = (props) => {
 
 const Next = (props) => {
     const [{ isDragging }, ref, preview] = useDrag({
-        item: {
-            type: ItemTypes.NEXT,
-        },
-        begin: (monitor)=>{props.dragNext(props.direction, props.value)},
+        item: { type: ItemTypes.NEXT },
+        begin: (monitor)=>{props.dragNext(props.player, props.position)},
         collect: (monitor) => ({
             isDragging: !!monitor.isDragging(),
         }),
     })
+
+    // console.log(props.selectedNext)
 
 
     return (        
@@ -96,7 +96,7 @@ function mapStateToProps(store) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        dragNext: (direction, value) => { dispatch(dragNext(direction, value)) },
+        dragNext: (player, position) => { dispatch(dragNext(player, position)) },
     }
 }
 

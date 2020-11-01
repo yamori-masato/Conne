@@ -1,4 +1,5 @@
-import { } from '../actions'
+import { DROP_NEXT } from '../actions'
+
 
 const initialState = {
     board: [
@@ -14,11 +15,23 @@ const initialState = {
 }
 
 export default (state = initialState, action) => {
+    const newState = JSON.parse(JSON.stringify(state))
+    // console.log(action)
+
     switch (action.type) {
-        // case CAN_MOVE:
-        //     return { value: state.value + 1 }
-        // case DECREMENT:
-        //     return { value: state.value - 1 }
+        case DROP_NEXT:
+            const newBoard = newState.board
+            const posData = action.posData
+            for (let i = 0; i <= 1; i++){
+                let [value, pos] = posData[i]
+                newBoard[pos[0]][pos[1]] = value
+            }
+
+            return {
+                ...state,
+                board: newBoard
+             }
+
         default:
             return state
     }
