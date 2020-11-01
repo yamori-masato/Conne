@@ -7,8 +7,8 @@ import { connect } from 'react-redux'
 
 const NextListStyle = styled.div(props => css`
     position: relative;
-    width: 400px;
-    height: calc(400px * 0.25); // これはなくても動くはずだが、子要素に依存したサイズにしてしまうとバグで高さが変わってしまう。
+    width: 500px;
+    //height: calc(400px * 0.25); // これはなくても動くはずだが、子要素に依存したサイズにしてしまうとバグで高さが変わってしまう。
 
     margin: 0 auto;
     background-color: white;
