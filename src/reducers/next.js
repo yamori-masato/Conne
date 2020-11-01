@@ -20,28 +20,29 @@ export default (state = initialState, action) => {
     const newState = JSON.parse(JSON.stringify(state))
     // console.log(state)
 
+    let nexts,key
+    if (action.player === "your") {
+        nexts = newState.my_next
+        key = "my_next"
+    } else if (action.player === "opponent") {
+        nexts = newState.opp_next
+        key = "opp_next"
+    }
+
     switch (action.type) {
         case DRAG_NEXT:
-            const { player, position } = action
-
-            let nexts
-            if (player === "your") {
-                nexts = state.my_next
-            } else if (player === "opponent") {
-                nexts = state.opp_next
-            }
-
             return { 
                 ...newState,
                 selectedNext: {
-                    player: player,
-                    position: position,
-                    direction: nexts[position][0],
-                    value: nexts[position][1],
+                    player: action.player,
+                    position: action.position,
+                    direction: nexts[action.position][0],
+                    value: nexts[action.position][1],
                 }
             }
         
         case DROP_NEXT:
+            newState[key][action.position] = createNewCode()
             return {
                 ...newState,
                 selectedNext: {},

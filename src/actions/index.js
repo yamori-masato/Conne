@@ -1,4 +1,6 @@
 import Board from '../gameLogic/board'
+import { createNewCode } from '../gameLogic/next'
+
 
 export const DRAG_NEXT = 'DRAG_NEXT'
 export const DROP_NEXT = 'DROP_NEXT'
@@ -17,8 +19,9 @@ export const dragNext = (player, position) => {
 }
 
 // nextとboardの両方にdispatch
-export const dropNext = (toX, toY, direction, value, before) => {
-    // console.log(toX, toY, direction, value, board)
+export const dropNext = (toX, toY, before, selectedNext) => {
+    // console.log(toX, toY, board, selectedNext)
+    const {direction, value, player, position} = selectedNext
     let setX,setY
     if (direction==="row") {
         [setX, setY] = [toX+1,toY]
@@ -36,6 +39,8 @@ export const dropNext = (toX, toY, direction, value, before) => {
     return {
         type: DROP_NEXT,
         board: newBoard,
+        player: player,
+        position: position,
         posData: posData,    // View側用
     }
 }
