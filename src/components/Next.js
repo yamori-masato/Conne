@@ -17,7 +17,6 @@ const getNextStyles = (props, isDragging) => {
         opacity: opacity,
         display: display,
         // position: 'relative',
-
     }
 }
 
@@ -51,7 +50,9 @@ const renderBlock = (props) => {
 }
 
 
+
 const Next = (props) => {
+    
     const [{ isDragging }, ref, preview] = useDrag({
         item: { type: ItemTypes.NEXT },
         begin: (monitor)=>{props.dragNext(props.player, props.position)},
@@ -59,19 +60,12 @@ const Next = (props) => {
             isDragging: !!monitor.isDragging(),
         }),
     })
+    const dragRef = props.player === 'your' ? ref : null
 
-    // console.log(props.selectedNext)
-
-
-    return (        
+    return (
         <>
-        <DragPreviewImage connect={preview} src={getEmptyImage().src}></DragPreviewImage>
-
-        {/* <NextStyle direction={direction} dragging={isDragging} ref={ref} >
-            {renderBlock(props)}
-        </NextStyle> */}
-            
-            <div style={getNextStyles(props,isDragging)} ref={ref}>
+            <DragPreviewImage connect={preview} src={getEmptyImage().src}></DragPreviewImage>
+            <div style={getNextStyles(props,isDragging)} ref={dragRef}>
                 {renderBlock(props)}
             </div>
         </>
