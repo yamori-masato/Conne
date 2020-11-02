@@ -22,9 +22,8 @@ const SquareStyle = styled.div`
 
 const Square = (props) => {
     const {x,y} = props
-    const selectedNext = props.next.selectedNext
+    const { selectedNext, opp_next } = props.next
     const { board } = props.board
-    const { next } = props.next
 
     // console.log(x, y, direction, value, board)
 
@@ -33,9 +32,9 @@ const Square = (props) => {
         drop: (item, monitor) => {
             const curBoard = dropNext(x, y, board, selectedNext).board
             props.dropNext(x, y, board, selectedNext)
-            props.checkGameOver(curBoard)
-        }, // collect関数
-        // ここは絶対state経由で参照したほうが良い
+            // console.log(opp_next)
+            props.checkGameOver(curBoard, opp_next)
+        },
         canDrop: (item, monitor) => {
             const checkList = [x, y, board, selectedNext]
             const flag = checkList.every(v => (typeof v !== 'undefined'))
@@ -73,7 +72,7 @@ function mapStateToProps(store) {
 function mapDispatchToProps(dispatch) {
     return {
         dropNext: (x, y, direction, value, board) => { dispatch(dropNext(x, y, direction, value, board)) },
-        checkGameOver: (board) => { dispatch(checkGameOver(board))},
+        checkGameOver: (board, opp_next) => { dispatch(checkGameOver(board, opp_next))},
     }
 }
 

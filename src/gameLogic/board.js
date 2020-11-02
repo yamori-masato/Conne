@@ -7,20 +7,33 @@ class Board {
         this.winNum = 4
     }
 
+    // initialBoard() {
+    //     for (let i=0; i < this.size; i++){
+    //         this.board.push([])
+    //         for (let j = 0; j < this.size; j++){
+    //             this.board[i].push(0)
+    //         }
+    //     }
+    //     this.board[4][4] = 1
+    //     this.board[4][5] = 2
+    //     this.board[5][4] = 3
+    //     this.board[5][5] = 4
+    //     return this.board
+    // }
+
     initialBoard() {
         for (let i=0; i < this.size; i++){
             this.board.push([])
             for (let j = 0; j < this.size; j++){
-                this.board[i].push(0)
+                this.board[i].push((i+j)%3+1)
             }
         }
-        this.board[4][4] = 1
-        this.board[4][5] = 2
-        this.board[5][4] = 3
-        this.board[5][5] = 4
+        this.board[4][4] = 0
+        this.board[4][5] = 0
+        this.board[5][4] = 0
+        this.board[5][5] = 0
         return this.board
     }
-
 
     // putPieceと_isEmptyでなぜかthis.boardがundefined扱いになるエラーがある
     // this.board自体を出力すると存在するのに、Uncaught TypeError: Cannot set property '0' of undefined
@@ -64,7 +77,7 @@ class Board {
         // ①幅優先探索で4つ繋がっているかを確認
         // ②または、置ける場所がないか(引数で所持しているNextを考慮) ※置けない状況を作られた側が負け
         
-        // ①勝利
+        // ①check => ４つ以上つながっている => 勝利
         const clone = JSON.parse(JSON.stringify(this.board))
         const res = []
         const dir = [[0,1],[0,-1],[1,0],[-1,0]]      // 左上から右下へ探索するから [1,0],[-1,0]だけでいい気がする
@@ -98,9 +111,35 @@ class Board {
         }
         if (res.length) { return { result: "win",pos: res } }
         
-        // ②引き分け
+        // ②check => 置ける場所がない => 勝利
+        if (!this._checkMovable(rowNext, columnNext)) {
+            return { result: "win" }
+        }
+
 
         return { result: "ok" }
+    }
+
+    // 一箇所でも置ける場所があればtrue、一箇所もなければfalse
+    _checkMovable(rowNext=true, columnNext=true) {
+        for (let i = 0; i < this.size; i++) {
+            for (let j = 0; j < this.size; j++) {
+                if (rowNext) {
+                    let dataList = [{x:j, y:i, value:1},{x:j+1, y:i, value:1}]
+                    if (this.canPut(...dataList)) { 
+                        return true
+                    }
+                }
+                if (columnNext) {
+                    let dataList = [{x:j, y:i, value:1},{x:j, y:i+1, value:1}]
+                    if (this.canPut(...dataList)) {
+                        return true
+                    }
+                }
+            }
+        }
+        // console.log('一箇所も置けません')
+        return false
     }
 
 

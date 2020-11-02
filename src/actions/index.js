@@ -46,10 +46,18 @@ export const dropNext = (toX, toY, before, selectedNext) => {
     }
 }
 
-export const checkGameOver = (curBoard) => {
-
+export const checkGameOver = (curBoard, opp_next) => {
+    let rowNext = false
+    let columnNext = false
+    opp_next.forEach(([dir,]) => {
+        if (dir === 'row') {
+            rowNext = true
+        } else if (dir === 'column') {
+            columnNext = true
+        }
+    })
     const current = new Board(curBoard)
-    const data = current.checkGameOver()
+    const data = current.checkGameOver(rowNext, columnNext)
     const result = data.result
     let page = 'game'
     switch (result) {
@@ -69,5 +77,32 @@ export const checkGameOver = (curBoard) => {
         type: CHECK_GAME_OVER,
         page: page,
         result: result,
+    }
+}
+
+
+
+
+
+
+// actionCable
+
+export const RECEIVED = 'RECEIVED'
+export const GAME_START = 'GAME_START'
+export const GAME_END = 'GAME_END'
+
+
+
+export const received = (data) => {
+    // dataによってtypeを分岐
+
+    return {
+        // boardReducerのboardを初期化
+        // nextReducerを初期化
+        // gameReducerの
+        type: GAME_START,
+    }
+    return {
+        type: GAME_END,
     }
 }
