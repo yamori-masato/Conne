@@ -62,7 +62,7 @@ class Board {
 
     checkGameOver(rowNext=true, columnNext=true) {
         // ①幅優先探索で4つ繋がっているかを確認
-        // ②または、置ける場所がないか(引数で所持しているNextを考慮) ※今回は片方のプレイヤーが置けない状況が回ってきた時点でゲーム終了とする
+        // ②または、置ける場所がないか(引数で所持しているNextを考慮) ※置けない状況を作られた側が負け
         
         // ①勝利
         const clone = JSON.parse(JSON.stringify(this.board))
@@ -96,9 +96,11 @@ class Board {
                 }
             }
         }
-        if (res.length) { return res }
+        if (res.length) { return { result: "win",pos: res } }
         
         // ②引き分け
+
+        return { result: "ok" }
     }
 
 

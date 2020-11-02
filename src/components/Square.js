@@ -6,7 +6,7 @@ import gameBoard from '../gameLogic/board'
 import { useDrop } from 'react-dnd'
 import { ItemTypes } from '../react-dnd/itemType'
 
-import { dropNext } from '../actions'
+import { checkGameOver, dropNext } from '../actions'
 import { connect } from 'react-redux'
 
 // pieceとoverlay(dnd時のUI)を保持するコンポーネント
@@ -24,12 +24,17 @@ const Square = (props) => {
     const {x,y} = props
     const selectedNext = props.next.selectedNext
     const { board } = props.board
+    const { next } = props.next
 
     // console.log(x, y, direction, value, board)
 
     const [{ isOver, canDrop }, drop] = useDrop({
         accept: ItemTypes.NEXT,  // itemオブジェクト
-        drop: (item, monitor) => {props.dropNext(x, y, board, selectedNext)}, // collect関数
+        drop: (item, monitor) => {
+            const curBoard = dropNext(x, y, board, selectedNext).board
+            props.dropNext(x, y, board, selectedNext)
+            props.checkGameOver(curBoard)
+        }, // collect関数
         // ここは絶対state経由で参照したほうが良い
         canDrop: (item, monitor) => {
             const checkList = [x, y, board, selectedNext]
@@ -67,7 +72,8 @@ function mapStateToProps(store) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        dropNext: (x,y,direction,value,board) => { dispatch(dropNext(x,y,direction,value,board)) },
+        dropNext: (x, y, direction, value, board) => { dispatch(dropNext(x, y, direction, value, board)) },
+        checkGameOver: (board) => { dispatch(checkGameOver(board))},
     }
 }
 
