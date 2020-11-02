@@ -113,7 +113,12 @@ class Board {
         
         // ②check => 置ける場所がない => 勝利
         if (!this._checkMovable(rowNext, columnNext)) {
-            return { result: "win" }
+            for (let i = 0; i < this.size; i++) {
+                for (let j = 0; j < this.size; j++) {
+                    if (this.board[i][j] === 0) { res.push([j, i])  }
+                }
+            }
+            return { result: "win", pos: res}
         }
 
 
