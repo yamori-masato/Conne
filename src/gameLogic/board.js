@@ -7,33 +7,33 @@ class Board {
         this.winNum = 4
     }
 
-    // initialBoard() {
-    //     for (let i=0; i < this.size; i++){
-    //         this.board.push([])
-    //         for (let j = 0; j < this.size; j++){
-    //             this.board[i].push(0)
-    //         }
-    //     }
-    //     this.board[4][4] = 1
-    //     this.board[4][5] = 2
-    //     this.board[5][4] = 3
-    //     this.board[5][5] = 4
-    //     return this.board
-    // }
-
     initialBoard() {
         for (let i=0; i < this.size; i++){
             this.board.push([])
             for (let j = 0; j < this.size; j++){
-                this.board[i].push((i+j)%3+1)
+                this.board[i].push(0)
             }
         }
-        this.board[4][4] = 0
-        this.board[4][5] = 0
-        this.board[5][4] = 0
-        this.board[5][5] = 0
+        this.board[4][4] = 1
+        this.board[4][5] = 2
+        this.board[5][4] = 3
+        this.board[5][5] = 4
         return this.board
     }
+
+    // initialBoard() {
+    //     for (let i=0; i < this.size; i++){
+    //         this.board.push([])
+    //         for (let j = 0; j < this.size; j++){
+    //             this.board[i].push((i+j)%3+1)
+    //         }
+    //     }
+    //     this.board[4][4] = 0
+    //     this.board[4][5] = 0
+    //     this.board[5][4] = 0
+    //     this.board[5][5] = 0
+    //     return this.board
+    // }
 
     // putPieceと_isEmptyでなぜかthis.boardがundefined扱いになるエラーがある
     // this.board自体を出力すると存在するのに、Uncaught TypeError: Cannot set property '0' of undefined
@@ -97,7 +97,7 @@ class Board {
                             let [nx, ny] = [x + dx, y + dy]
                             if ( 0 <= nx && nx <= 9 && 0 <= ny && ny <= 9) {
                                 if (clone[ny][nx] === val) {       // 起点の周囲で起点と同じ値なら探索場所に追加
-                                    if ( !queue.some(([x,y])=>(x===nx && y===ny))) {   // [1,1]!==[1,1]だから
+                                    if ( !queue.some(([x,y])=>(x===nx && y===ny))) {   // includesとしたいけど、[1,1]!==[1,1]だから
                                         queue.push([nx, ny])  
                                     }
                                 }
@@ -105,11 +105,11 @@ class Board {
                         })
                         index ++ 
                     }
-                    if (index >= this.winNum) { res.push(queue) }
+                    if (index >= this.winNum) { res.push(...queue) }
                 }
             }
         }
-        if (res.length) { return { result: "win",pos: res } }
+        if (res.length) { return { result: "win", pos: res } }
         
         // ②check => 置ける場所がない => 勝利
         if (!this._checkMovable(rowNext, columnNext)) {

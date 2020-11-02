@@ -1,17 +1,19 @@
-import { DRAG_NEXT, DROP_NEXT } from '../actions'
+import { DRAG_NEXT, DROP_NEXT, GAME_START } from '../actions'
 import { createNewCode } from '../gameLogic/next'
 
 const initialState = {
-    my_next: [
-        createNewCode(),
-        createNewCode(),
-        createNewCode(),
-    ],
-    opp_next: [
-        createNewCode(),
-        createNewCode(),
-        createNewCode(),
-    ],
+    my_next: [],
+    opp_next: [],
+    // my_next: [
+    //     createNewCode(),
+    //     createNewCode(),
+    //     createNewCode(),
+    // ],
+    // opp_next: [
+    //     createNewCode(),
+    //     createNewCode(),
+    //     createNewCode(),
+    // ],
     selectedNext: {}, // どのNextが選択されているか{player,position}. 最後にドラッグされたもの
 
 }
@@ -30,6 +32,21 @@ export default (state = initialState, action) => {
     }
 
     switch (action.type) {
+        case GAME_START:
+            return {
+                ...newState,
+                my_next: [
+                    createNewCode(),
+                    createNewCode(),
+                    createNewCode(),
+                ],
+                opp_next: [
+                    createNewCode(),
+                    createNewCode(),
+                    createNewCode(),
+                ],
+            }
+
         case DRAG_NEXT:
             return { 
                 ...newState,

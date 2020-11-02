@@ -23,7 +23,8 @@ const SquareStyle = styled.div`
 const Square = (props) => {
     const {x,y} = props
     const { selectedNext, opp_next } = props.next
-    const { board } = props.board
+    const { board, highLightPos } = props.board
+    const isHighLight = highLightPos.some(([i,j])=>(i===x && j===y)) // includesの値比較版
 
     // console.log(x, y, direction, value, board)
 
@@ -59,7 +60,8 @@ const Square = (props) => {
             {props.children}
 			{isOver && !canDrop && <Overlay color="red" />}
 			{/* {!isOver && canDrop && <Overlay color="yellow" />} */}
-			{isOver && canDrop && <Overlay color="green" />}
+            {isOver && canDrop && <Overlay color="green" />}
+            {isHighLight && <Overlay color="green" />}
         </SquareStyle>
     )
 }

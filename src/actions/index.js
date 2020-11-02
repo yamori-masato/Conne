@@ -59,24 +59,20 @@ export const checkGameOver = (curBoard, opp_next) => {
     const current = new Board(curBoard)
     const data = current.checkGameOver(rowNext, columnNext)
     const result = data.result
+    let highLightPos = []
     let page = 'game'
     switch (result) {
         case "ok": // game続行)
-            
             break
         case "win":
-            // result.pos
-            page = 'result'
-            break
-        case "lose":
-            page = 'result'
+            highLightPos = data.pos
             break
     }
 
     return {
         type: CHECK_GAME_OVER,
-        page: page,
         result: result,
+        highLightPos: highLightPos,
     }
 }
 
