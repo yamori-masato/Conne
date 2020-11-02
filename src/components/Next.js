@@ -9,17 +9,6 @@ import { getEmptyImage } from 'react-dnd-html5-backend';
 import { dragNext } from '../actions'
 import { connect } from 'react-redux'
 
-
-// const NextStyle = styled.div(props => css`
-
-//     // 真ん中の要素を基準にする(コンポーネント思考的には親のプロパティで位置調整するべき)
-//     &:nth-child(2){
-//         position: absolute;
-//         left: 50%;
-//         transform: translateX(-50%);
-//     }
-// `)
-
 const getNextStyles = (props, isDragging) => {
     const opacity = isDragging ? 0.3 : 1
     const display = props.direction === 'row' ? 'flex' : 'block'
@@ -27,7 +16,7 @@ const getNextStyles = (props, isDragging) => {
     return {
         opacity: opacity,
         display: display,
-        position: 'relative',
+        // position: 'relative',
 
     }
 }

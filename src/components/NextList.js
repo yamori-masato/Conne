@@ -8,13 +8,19 @@ import { connect } from 'react-redux'
 const NextListStyle = styled.div(props => css`
     position: relative;
     width: 500px;
-    //height: calc(400px * 0.25); // これはなくても動くはずだが、子要素に依存したサイズにしてしまうとバグで高さが変わってしまう。
+    height: calc(400px * 0.25); // これはなくても動くはずだが、子要素に依存したサイズにしてしまうとバグで高さが変わってしまう。
 
     margin: 0 auto;
     background-color: white;
     display: flex;
     justify-content: space-between;
     align-items: center;
+
+    & > div:nth-child(2){
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+    }
 `)
 
 
