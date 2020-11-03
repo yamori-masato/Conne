@@ -8,10 +8,10 @@ import reducer from './reducers/'
 import actionCable from 'actioncable'
 import { API_WS_ROOT } from './constants'
 
-const store = createStore(reducer)     // reducerを元にstoreを作成
+export const store = createStore(reducer)     // reducerを元にstoreを作成
+// debugger
 
-
-const CableApp = {}
+export const CableApp = {}
 CableApp.cable = actionCable.createConsumer(API_WS_ROOT) // socketクライアント
 export const ActionCableContext = React.createContext()
 

@@ -83,28 +83,30 @@ export const checkGameOver = (curBoard, opp_next) => {
 
 
 
-
-
-
 // actionCable
 
-// export const RECEIVED = 'RECEIVED'
+export const RECEIVED = 'RECEIVED'
 
 export const GAME_START = 'GAME_START'
+
+export const SHARE_INIT_DATA = 'SHARE_INIT_DATA'
+
 export const GAME_END = 'GAME_END'
 
 
 
-export const receive = (data) => {
-    // dataによってtypeを分岐
-
+export const gameStart = (order) => {
     return {
-        // boardReducerのboardを初期化
-        // nextReducerを初期化
-        // gameReducerの
         type: GAME_START,
+        order: order,
     }
+}
+
+export const shareInitData = (next) => {
+    const [my_next, opp_next] = [next.opp_next, next.my_next]
     return {
-        type: GAME_END,
+        type: SHARE_INIT_DATA,
+        my_next,
+        opp_next,
     }
 }

@@ -1,4 +1,4 @@
-import { SEEK, GAME_START, CHECK_GAME_OVER } from '../actions'
+import { SEEK, GAME_START, SHARE_INIT_DATA, CHECK_GAME_OVER } from '../actions'
 
 const initialState = {
     page: "title", // title, game, result
@@ -21,8 +21,13 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 page: "game",
-                // order: ?,
+                order: action.order,
             }
+        
+        // case SHARE_INIT_DATA:
+        //     return {
+
+        //     }
         
         
         case CHECK_GAME_OVER:

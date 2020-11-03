@@ -1,12 +1,21 @@
+
+import { store} from '../index'
+import { gameStart, shareInitData } from '../actions'
+
+
 // channelから受信した時
 const handleReceived = (data) => {
     console.log(data)
-    switch (data.action) {
+    switch (data.type) {
         case "game_start":
-            alert(data.msg)
+            store.dispatch(gameStart(data.order))
+            break
+        case "share_init":
+            // console.log(data.next)
+            store.dispatch(shareInitData(data.next))
             break
         default:
-            alert(data.msg)
+            break
     }
 }
 
@@ -19,7 +28,7 @@ const handleDisconnected = () => {
 
 
 export const subscribeGameChannel = (cable) => {
-    cable.subscriptions.create({ channel: "GameChannel" }, {
+    cable.channel = cable.subscriptions.create({ channel: "GameChannel" }, {
         received: handleReceived,
         connected: handleConnected,
         disconnected: handleDisconnected,
