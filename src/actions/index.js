@@ -1,17 +1,23 @@
 import Board from '../gameLogic/board'
-import { createNewCode } from '../gameLogic/next'
+import { subscribeGameChannel } from '../channels'
 
 
+export const SEEK = 'SEEK'
 export const DRAG_NEXT = 'DRAG_NEXT'
 export const DROP_NEXT = 'DROP_NEXT'
 export const CHECK_GAME_OVER = 'CHECK_GAME_OVER'
 
+// 対戦を待機する
+export const seek = (cable) => {
+    // gameChannelをsubscribeする
+    subscribeGameChannel(cable)
+    return {
+        type: SEEK,
+    }
+}
 
 
 export const dragNext = (player, position) => {
-    // if (!player || !position) {
-    //     return {type: null}
-    // }
     return {
         type: DRAG_NEXT,
         player: player,
@@ -21,7 +27,6 @@ export const dragNext = (player, position) => {
 
 // nextとboardの両方にdispatch
 export const dropNext = (toX, toY, before, selectedNext) => {
-    // console.log(toX, toY, board, selectedNext)
     const {direction, value, player, position} = selectedNext
     let setX,setY
     if (direction==="row") {
@@ -83,13 +88,14 @@ export const checkGameOver = (curBoard, opp_next) => {
 
 // actionCable
 
-export const RECEIVED = 'RECEIVED'
+// export const RECEIVED = 'RECEIVED'
+
 export const GAME_START = 'GAME_START'
 export const GAME_END = 'GAME_END'
 
 
 
-export const received = (data) => {
+export const receive = (data) => {
     // dataによってtypeを分岐
 
     return {

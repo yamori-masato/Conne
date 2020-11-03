@@ -61,7 +61,7 @@ const Square = (props) => {
 			{isOver && !canDrop && <Overlay color="red" />}
 			{/* {!isOver && canDrop && <Overlay color="yellow" />} */}
             {isOver && canDrop && <Overlay color="green" />}
-            {isHighLight && <Overlay color="green" />}
+            {isHighLight && <Overlay color="red" />}
         </SquareStyle>
     )
 }
