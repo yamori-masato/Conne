@@ -9,6 +9,8 @@ import { ItemTypes } from '../react-dnd/itemType'
 import { checkGameOver, dropNext } from '../actions'
 import { connect } from 'react-redux'
 
+import { ActionCableContext, store } from '../index'
+
 // pieceとoverlay(dnd時のUI)を保持するコンポーネント
 
 const SquareStyle = styled.div`
@@ -24,17 +26,18 @@ const Square = (props) => {
     const {x,y} = props
     const { selectedNext, opp_next } = props.next
     const { board, highLightPos } = props.board
-    const isHighLight = highLightPos.some(([i,j])=>(i===x && j===y)) // includesの値比較版
-
-    // console.log(x, y, direction, value, board)
+    const isHighLight = highLightPos.some(([i, j]) => (i === x && j === y)) // includesの値比較版
+    
+    const channel = React.useContext(ActionCableContext).channel
 
     const [{ isOver, canDrop }, drop] = useDrop({
         accept: ItemTypes.NEXT,  // itemオブジェクト
         drop: (item, monitor) => {
             const curBoard = dropNext(x, y, board, selectedNext).board
+            const { posData } = dropNext(x, y, board, selectedNext)
             props.dropNext(x, y, board, selectedNext)
-            // console.log(opp_next)
-            props.checkGameOver(curBoard, opp_next)
+            const {my_next} = store.getState().next
+            props.checkGameOver(curBoard, posData, x, y, my_next, opp_next, channel) //-----------------------------------
         },
         canDrop: (item, monitor) => {
             const checkList = [x, y, board, selectedNext]
@@ -74,7 +77,7 @@ function mapStateToProps(store) {
 function mapDispatchToProps(dispatch) {
     return {
         dropNext: (x, y, direction, value, board) => { dispatch(dropNext(x, y, direction, value, board)) },
-        checkGameOver: (board, opp_next) => { dispatch(checkGameOver(board, opp_next))},
+        checkGameOver: (board, posData, x, y, my_next, opp_next, channel) => { dispatch(checkGameOver(board, posData, x, y, my_next, opp_next, channel))},
     }
 }
 

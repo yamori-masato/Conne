@@ -49,8 +49,8 @@ function mapStateToProps(store) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return {
-      seek: (cable)=>{ dispatch(seek(cable)) }
+    return {
+        seek: (cable)=>{ dispatch(seek(cable)) }
     }
 }
 

@@ -51,7 +51,7 @@ export const dropNext = (toX, toY, before, selectedNext) => {
     }
 }
 
-export const checkGameOver = (curBoard, opp_next) => {
+export const checkGameOver = (curBoard, posData, x, y, my_next, opp_next, channel) => {
     let rowNext = false
     let columnNext = false
     opp_next.forEach(([dir,]) => {
@@ -65,12 +65,23 @@ export const checkGameOver = (curBoard, opp_next) => {
     const data = current.checkGameOver(rowNext, columnNext)
     const result = data.result
     let highLightPos = []
-    let page = 'game'
     switch (result) {
-        case "ok": // game続行)
+        case "ok": // game続行
+            channel.send({
+                type: 'move',
+                target: posData,
+                to: { x: x, y: y },
+                newNext: my_next
+            })
             break
         case "win":
             highLightPos = data.pos
+            channel.send({
+                type: 'end',
+                target: posData,
+                to: { x: x, y: y },
+                newNext: my_next
+            })
             break
     }
 
@@ -86,10 +97,9 @@ export const checkGameOver = (curBoard, opp_next) => {
 // actionCable
 
 export const RECEIVED = 'RECEIVED'
-
 export const GAME_START = 'GAME_START'
-
 export const SHARE_INIT_DATA = 'SHARE_INIT_DATA'
+export const MOVE = 'MOVE'
 
 export const GAME_END = 'GAME_END'
 
@@ -101,12 +111,49 @@ export const gameStart = (order) => {
         order: order,
     }
 }
-
 export const shareInitData = (next) => {
     const [my_next, opp_next] = [next.opp_next, next.my_next]
     return {
         type: SHARE_INIT_DATA,
         my_next,
         opp_next,
+    }
+}
+export const move = (posData, target, to, newNext) => {
+    // boardを返したい
+    
+    const board = new Board(posData)
+    const newBoard = board.putPiece(...target)
+
+    return {
+        type: MOVE,
+        newBoard: newBoard,
+        newNext: newNext,
+    }
+}
+
+export const gameEnd = (curBoard, opp_next) => {
+    console.log('channel')
+    console.log(curBoard)
+    console.log(opp_next)
+
+
+    let rowNext = false
+    let columnNext = false
+    opp_next.forEach(([dir,]) => {
+        if (dir === 'row') {
+            rowNext = true
+        } else if (dir === 'column') {
+            columnNext = true
+        }
+    })
+    const current = new Board(curBoard)
+    const data = current.checkGameOver(rowNext, columnNext)
+    const highLightPos = data.pos
+
+
+    return {
+        type: GAME_END,
+        highLightPos: highLightPos,
     }
 }

@@ -1,4 +1,4 @@
-import { SHARE_INIT_DATA ,DRAG_NEXT, DROP_NEXT, GAME_START } from '../actions'
+import { SHARE_INIT_DATA ,DRAG_NEXT, DROP_NEXT, GAME_START, MOVE } from '../actions'
 import { createNewCode } from '../gameLogic/next'
 
 const initialState = {
@@ -69,6 +69,12 @@ export default (state = initialState, action) => {
             return {
                 ...newState,
                 selectedNext: {},
+            }
+        
+        case MOVE:
+            return {
+                ...newState,
+                opp_next: action.newNext
             }
 
             

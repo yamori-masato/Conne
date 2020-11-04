@@ -60,7 +60,7 @@ const Next = (props) => {
             isDragging: !!monitor.isDragging(),
         }),
     })
-    const dragRef = props.player === 'your' ? ref : null
+    const dragRef = (props.player === 'your' && props.current) ? ref : null//
 
     return (
         <>
@@ -74,7 +74,10 @@ const Next = (props) => {
 
 
 function mapStateToProps(store) {
-    return store.next
+    return {
+        current: store.game.current,
+        ...store.next
+    }
 }
 
 function mapDispatchToProps(dispatch) {

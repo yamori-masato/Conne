@@ -1,4 +1,4 @@
-import { DROP_NEXT, GAME_START, CHECK_GAME_OVER } from '../actions'
+import { DROP_NEXT, GAME_START, CHECK_GAME_OVER, MOVE, GAME_END } from '../actions'
 import Board from '../gameLogic/board'
 
 const board = new Board
@@ -29,6 +29,19 @@ export default (state = initialState, action) => {
         
                 
         case CHECK_GAME_OVER:
+            return {
+                ...state,
+                highLightPos: action.highLightPos,
+            }
+        
+        case MOVE:
+            console.log(action.newBoard)
+            return {
+                ...state,
+                board: action.newBoard,
+            }
+        
+        case GAME_END:
             return {
                 ...state,
                 highLightPos: action.highLightPos,
