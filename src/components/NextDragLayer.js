@@ -15,6 +15,8 @@ const NextDragLayerStyle = styled.div(props => css`
     top: 0;
     width: 100vw;
     height: 100vh;
+    background-color: ${ props.current || 'rgba(0,0,0,0.5)'};
+
 `)
 
 const getItemStyles = (currentOffset) => {
@@ -51,9 +53,8 @@ const NextDragLayer = (props) => {
             <Next direction={direction} value={value} dragging={isDragging}></Next>
             : null
     }
-
     return (
-        <NextDragLayerStyle>
+        <NextDragLayerStyle current={props.current}>
             <div style={getItemStyles(currentOffset)}>
                 {draggingNext}
             </div>
@@ -67,7 +68,10 @@ const NextDragLayer = (props) => {
 
 
 function mapStateToProps(store) {
-    return store.next
+    return {
+        ...store.next,
+        current: store.game.current,
+    }
 }
 
 function mapDispatchToProps(dispatch) {
