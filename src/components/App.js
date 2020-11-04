@@ -18,9 +18,9 @@ const App = (props) => {
       {props.page === 'game' && (
         <Game/> 
       )}
-      {props.page === 'result' && (
+      {/* {props.page === 'result' && (
         <h1>you win!</h1>
-      )}
+      )} */}
     </DndProvider>
   )
 }

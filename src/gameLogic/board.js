@@ -32,6 +32,7 @@ class Board {
     //     this.board[4][5] = 0
     //     this.board[5][4] = 0
     //     this.board[5][5] = 0
+    //     this.board[0][0] = 0
     //     return this.board
     // }
 
@@ -118,7 +119,8 @@ class Board {
                     if (this.board[i][j] === 0) { res.push([j, i])  }
                 }
             }
-            return { result: "win", pos: res}
+            // return { result: "win", pos: res}
+            // return { result: "win"}
         }
 
 

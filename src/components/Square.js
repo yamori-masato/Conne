@@ -26,7 +26,11 @@ const Square = (props) => {
     const {x,y} = props
     const { selectedNext, opp_next } = props.next
     const { board, highLightPos } = props.board
-    const isHighLight = highLightPos.some(([i, j]) => (i === x && j === y)) // includesの値比較版
+    let isHighLight = false
+    // console.log(highLightPos)
+    if (highLightPos.length) {
+        isHighLight = !highLightPos.some(([i, j]) => (i === x && j === y)) // includesの値比較版
+    }
     
     const channel = React.useContext(ActionCableContext).channel
 
@@ -64,7 +68,7 @@ const Square = (props) => {
 			{isOver && !canDrop && <Overlay color="red" />}
 			{/* {!isOver && canDrop && <Overlay color="yellow" />} */}
             {isOver && canDrop && <Overlay color="green" />}
-            {isHighLight && <Overlay color="red" />}
+            {isHighLight && <Overlay color="black" />}
         </SquareStyle>
     )
 }

@@ -1,3 +1,4 @@
-import Board from './Board';
+import Board from './board'
+import { createNewCode } from './next'
 
-export { Board };
+export { Board, createNewCode };

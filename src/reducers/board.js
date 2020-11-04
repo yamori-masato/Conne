@@ -35,7 +35,6 @@ export default (state = initialState, action) => {
             }
         
         case MOVE:
-            console.log(action.newBoard)
             return {
                 ...state,
                 board: action.newBoard,

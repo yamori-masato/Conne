@@ -63,10 +63,11 @@ export const checkGameOver = (curBoard, posData, x, y, my_next, opp_next, channe
     })
     const current = new Board(curBoard)
     const data = current.checkGameOver(rowNext, columnNext)
-    const result = data.result
+    let result = data.result
     let highLightPos = []
     switch (result) {
         case "ok": // game続行
+            result = null
             channel.send({
                 type: 'move',
                 target: posData,
@@ -120,8 +121,6 @@ export const shareInitData = (next) => {
     }
 }
 export const move = (posData, target, to, newNext) => {
-    // boardを返したい
-    
     const board = new Board(posData)
     const newBoard = board.putPiece(...target)
 
@@ -133,11 +132,6 @@ export const move = (posData, target, to, newNext) => {
 }
 
 export const gameEnd = (curBoard, opp_next) => {
-    console.log('channel')
-    console.log(curBoard)
-    console.log(opp_next)
-
-
     let rowNext = false
     let columnNext = false
     opp_next.forEach(([dir,]) => {

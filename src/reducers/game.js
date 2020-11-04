@@ -45,9 +45,11 @@ export default (state = initialState, action) => {
                 current: true,
             }
         
+        // 対戦相手に負けた時
         case GAME_END:
             return {
                 ...state,
+                result: "lose",
                 current: false,
             }
 
