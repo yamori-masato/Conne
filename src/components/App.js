@@ -10,6 +10,7 @@ import { connect } from 'react-redux'
 
 
 const App = (props) => {
+  console.log(props.result)
   return (
     <DndProvider backend={HTML5Backend}>
       {props.page === 'title' && (
@@ -18,9 +19,9 @@ const App = (props) => {
       {props.page === 'game' && (
         <Game/> 
       )}
-      {/* {props.page === 'result' && (
-        <h1>you win!</h1>
-      )} */}
+      {props.page === 'result' && (
+        <></>
+      )}
     </DndProvider>
   )
 }

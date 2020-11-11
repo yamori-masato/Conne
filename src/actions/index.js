@@ -1,7 +1,6 @@
 import Board from '../gameLogic/board'
 import { subscribeGameChannel } from '../channels'
 
-
 export const SEEK = 'SEEK'
 export const DRAG_NEXT = 'DRAG_NEXT'
 export const DROP_NEXT = 'DROP_NEXT'

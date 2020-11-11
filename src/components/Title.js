@@ -4,7 +4,7 @@ import { ActionCableContext } from '../index'
 import { seek } from '../actions'
 import { connect } from 'react-redux'
 
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 
 const ButtonStyle = styled.button`
     color: #fff;

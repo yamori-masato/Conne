@@ -1,7 +1,7 @@
 import { DROP_NEXT, GAME_START, CHECK_GAME_OVER, MOVE, GAME_END } from '../actions'
 import Board from '../gameLogic/board'
 
-const board = new Board
+const board = new Board()
 
 const initialState = {
     // board: board.initialBoard()

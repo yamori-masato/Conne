@@ -3,6 +3,7 @@ import React from 'react'
 import Board from './Board'
 import NextDragLayer from './NextDragLayer'
 import NextList from './NextList'
+import Result from '../components/Result'
 
 import {shareInitData} from '../actions'
 import { connect } from 'react-redux'
@@ -10,6 +11,7 @@ import { connect } from 'react-redux'
 import { ActionCableContext } from '../index'
 
 const Game = (props) => {
+    const result = props.game.result
     const channel = React.useContext(ActionCableContext).channel
     React.useEffect(() => {
         if (props.game.order === 'first') {
@@ -23,7 +25,10 @@ const Game = (props) => {
             <NextList player={"opponent"}></NextList>
                 <Board/>
             <NextList player={"your"}></NextList>
-            <></>
+
+            {!!result && (
+                <Result result={ result }/>
+            )}
         </>
     )
 }
