@@ -2,8 +2,8 @@ class Game
     def self.start(uuid1, uuid2)
         first, second = [uuid1, uuid2].shuffle
 
-        ActionCable.server.broadcast "player_#{first}", {action: "game_start", msg: "first"}
-        ActionCable.server.broadcast "player_#{second}", {action: "game_start", msg: "second"}
+        ActionCable.server.broadcast "player_#{first}", {type: "game_start", order: "first"}
+        ActionCable.server.broadcast "player_#{second}", {type: "game_start", order: "second"}
 
         REDIS.set("opponent_for:#{first}", second)
         REDIS.set("opponent_for:#{second}", first)
@@ -19,10 +19,9 @@ class Game
     #     end
     # end
   
-    # def self.make_move(uuid, data)
-    #     opponent = opponent_for(uuid)
-    #     move_string = "#{data["from"]}-#{data["to"]}"
-    
-    #     ActionCable.server.broadcast "player_#{opponent}", {action: "make_move", msg: move_string}
-    # end
+    def self.send_to_other(uuid, data)
+        opponent = opponent_for(uuid)
+
+        ActionCable.server.broadcast "player_#{opponent}", data
+    end
   end

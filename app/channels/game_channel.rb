@@ -9,7 +9,6 @@ class GameChannel < ApplicationCable::Channel
   end
 
   def receive(data)
-    puts "received #{data}"
-    # ActionCable.server.broadcast "player_#{uuid}", {action: "received", msg: "received"}
+    Game.send_to_other(uuid,data)
   end
 end
