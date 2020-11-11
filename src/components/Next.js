@@ -30,7 +30,7 @@ const BlockStyle = styled.div(props => css`
     position: relative;
     border: solid 1px;
     box-sizing: border-box;
-
+    background-color: white;
 `)
 
 const Block = (props) => {

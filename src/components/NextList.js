@@ -5,6 +5,18 @@ import Next from './Next'
 import {  } from '../actions'
 import { connect } from 'react-redux'
 
+const NextListBackGround = styled.div`
+    position: absolute;
+    height: 130%;
+    width: 107%;
+    border-radius: 13px;
+    background-color: #f2f2f2;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 3px 3px 13px #bfbfbf;
+`
+
 const NextListStyle = styled.div(props => css`
     position: absolute;
     top: 0;
@@ -67,6 +79,7 @@ const NextList = (props) => {
     return (
         <Wrapper>
             <NextListStyle>
+                <NextListBackGround/>
                 {renderNext(props)}
             </NextListStyle>
         </Wrapper>

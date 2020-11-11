@@ -34,7 +34,7 @@ const BoardBackGround = styled.div`
 const Wrapper = styled.div(props => css`
     position: relative;
     width: 100%;
-    margin: 10% 0;
+    margin: 14% 0;
 
     &:before{
         content:"";
