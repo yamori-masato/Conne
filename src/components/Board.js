@@ -9,14 +9,38 @@ import Piece from './Piece';
 
 
 const BoardStyle = styled.div(props => css`
-    margin: 30px auto;
-    width: 500px;
-    height: 500px;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     display: grid;
-    grid-template-rows: repeat(10, 50px);
-    grid-template-columns: repeat(10, 50px);
-    /* border: solid 1px; */
-    background-color: aliceblue;
+    grid-template-rows: repeat(10, 10%);
+    grid-template-columns: repeat(10, 10%);
+    position: absolute;
+`)
+
+const BoardBackGround = styled.div`
+    position: absolute;
+    height: 107%;
+    width: 107%;
+    border-radius: 19px;
+    background-color: #f2f2f2;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 3px 3px 13px #bfbfbf;
+`
+
+const Wrapper = styled.div(props => css`
+    position: relative;
+    width: 100%;
+    margin: 10% 0;
+
+    &:before{
+        content:"";
+        display: block;
+        padding-top: 100%;
+    }
 `)
 
 
@@ -43,7 +67,12 @@ const Board = (props) => {
         }
     }
     return (
-        <BoardStyle>{squares}</BoardStyle>
+        <Wrapper>
+            <BoardStyle>
+                <BoardBackGround/>
+                {squares}
+            </BoardStyle>
+        </Wrapper>
     )
 }
 

@@ -16,19 +16,31 @@ const NextDragLayerStyle = styled.div(props => css`
     width: 100vw;
     height: 100vh;
     background-color: ${ !!props.result || props.current || 'rgba(0,0,0,0.5)'};
-
 `)
 
-const getItemStyles = (currentOffset) => {
-    if (!currentOffset) { // 実際にドラッグしたやつをドロップする時
+// Nextコンポーネントは親要素の相対位置でサイズが決まるため、擬似的にNextListをつくっている。背景色付けてみるとわかりやすい。
+const Wrapper = styled.div`
+    width: calc(55vh);
+    height: calc(55vh * 0.2);
+    /* background-color: blue; */
+`
+
+const getItemStyles = (currentOffset,direction) => {
+    if (!currentOffset) { //// 実際にドラッグしたやつをドロップする時
       return {
         display: 'none',
       };
     }
   
     const { x, y } = currentOffset;
-  
-    const transform = `translate( calc(${x}px - 400px * 0.125 / 2), calc(${y}px - 400px * 0.125 / 2) )`;
+    // text-align: center; の分ずらす。
+    const dif_x = direction === 'row' ? 0 : 0.05
+    const dif_y = direction === 'column' ? 0 : 0.05 
+    // nextの左上の座標。
+    const ox = `${x}px - 55vh * ${dif_x}`
+    const oy = `${y}px - 55vh * ${dif_y}`
+    // さらに一つ目のnextの中心までカーソルをずらす。
+    const transform = `translate( calc(${ox} - 55vh * 0.05), calc(${oy} - 55vh * 0.05) )`;
     return {
         transform,
         WebkitTransform: transform,
@@ -44,20 +56,22 @@ const NextDragLayer = (props) => {
         currentOffset: monitor.getClientOffset(),
         isDragging: monitor.isDragging(),
     }))
-    // console.log(isDragging)
+    const { direction, value } = props.selectedNext
+
 
     let draggingNext
     if (Object.keys(props.selectedNext).length) {
-        const { direction, value } = props.selectedNext
         draggingNext = props.selectedNext ? 
-            <Next direction={direction} value={value} dragging={isDragging}></Next>
+            <div style={getItemStyles(currentOffset, direction)}>
+                <Wrapper>
+                    <Next direction={direction} value={value} dragging={isDragging}/>
+                </Wrapper>
+            </div>
             : null
     }
     return (
         <NextDragLayerStyle current={props.current} result={props.result}>
-            <div style={getItemStyles(currentOffset)}>
-                {draggingNext}
-            </div>
+            {draggingNext}
         </NextDragLayerStyle>
     )
     // return null

@@ -11,20 +11,25 @@ import { connect } from 'react-redux'
 
 const getNextStyles = (props, isDragging) => {
     const opacity = isDragging ? 0.3 : 1
-    const display = props.direction === 'row' ? 'flex' : 'block'
+    const direction = props.direction === 'row' ? 'row' : 'column'
 
     return {
         opacity: opacity,
-        display: display,
-        // position: 'relative',
+        cursor: 'pointer',
+        display: 'flex',
+        alignItems: 'center',
+        flexDirection: direction,
+        width: '20%',
+        height: '100%',
     }
 }
 
 const BlockStyle = styled.div(props => css`
-    height: calc(400px * 0.125);
-    width: calc(400px * 0.125);
+    height: 50%;
+    width: 50%;
     position: relative;
     border: solid 1px;
+    box-sizing: border-box;
 
 `)
 

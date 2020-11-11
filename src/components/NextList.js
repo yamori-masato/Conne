@@ -6,11 +6,12 @@ import {  } from '../actions'
 import { connect } from 'react-redux'
 
 const NextListStyle = styled.div(props => css`
-    position: relative;
-    width: 500px;
-    height: calc(400px * 0.25); // これはなくても動くはずだが、子要素に依存したサイズにしてしまうとバグで高さが変わってしまう。
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
 
-    margin: 0 auto;
     background-color: white;
     display: flex;
     justify-content: space-between;
@@ -22,6 +23,16 @@ const NextListStyle = styled.div(props => css`
         transform: translateX(-50%);
     }
 `)
+
+const Wrapper = styled.div`
+    position: relative;
+    width: 100%;
+    &:before{
+        content:"";
+        display: block;
+        padding-top: 20%;
+    }
+`
 
 
 const renderNext = (props) => {
@@ -54,9 +65,11 @@ const renderNext = (props) => {
 
 const NextList = (props) => {
     return (
-        <NextListStyle>
-            {renderNext(props)}
-        </NextListStyle>
+        <Wrapper>
+            <NextListStyle>
+                {renderNext(props)}
+            </NextListStyle>
+        </Wrapper>
     )
 }
 

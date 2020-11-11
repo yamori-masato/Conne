@@ -1,4 +1,5 @@
 import React from 'react'
+import styled from "styled-components";
 
 import Board from './Board'
 import NextDragLayer from './NextDragLayer'
@@ -9,6 +10,13 @@ import {shareInitData} from '../actions'
 import { connect } from 'react-redux'
 
 import { ActionCableContext } from '../index'
+
+const Container = styled.div`
+    width: 55vh;
+    margin: 0 auto;
+`
+
+
 
 const Game = (props) => {
     const result = props.game.result
@@ -21,14 +29,16 @@ const Game = (props) => {
     
     return (
         <>  
-            <NextDragLayer/>
-            <NextList player={"opponent"}></NextList>
-                <Board/>
-            <NextList player={"your"}></NextList>
-
+            <NextDragLayer />
             {!!result && (
                 <Result result={ result }/>
             )}
+
+            <Container>
+                <NextList player={"opponent"}></NextList>
+                <Board/>
+                <NextList player={"your"}></NextList>
+            </Container>
         </>
     )
 }

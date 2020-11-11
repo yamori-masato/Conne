@@ -12,3 +12,8 @@ body,
   flex-direction: column;
   justify-content: center;
 }
+
+#root {
+  padding: 1% 0;
+  box-sizing: border-box;
+}
