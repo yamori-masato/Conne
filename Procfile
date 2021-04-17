@@ -1,1 +1,1 @@
-web: puma -C config/puma.rb & cd front && npm start & wait -n
+web: cd front && npm start & puma -C config/puma.rb & wait -n
