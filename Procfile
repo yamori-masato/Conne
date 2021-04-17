@@ -1,1 +1,1 @@
-web: cd front && npm start & puma -C config/puma.rb & wait -n
+web: bundle exec rails s
