@@ -8,6 +8,5 @@
 
 ```zsh
 $ redis-server
-$ bundle exec rails s
-$ cd front && npm start
+$ foreman start -f Procfile.dev
 ```
