@@ -8,6 +8,6 @@
 
 ```zsh
 $ redis-server
-$ cd back && rails s -p 3001
+$ bundle exec rails s
 $ cd front && npm start
 ```
