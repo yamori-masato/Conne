@@ -1,2 +1,4 @@
-REDIS = Redis.new(:host => '127.0.0.1', :port => 6379)
-REDIS.ping
+require 'redis'
+
+uri = URI.parse('redis:6379')
+REDIS = Redis.new(host: uri.host, port: uri.port)
