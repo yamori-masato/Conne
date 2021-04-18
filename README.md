@@ -1,4 +1,4 @@
-# LinkingGame
+# Conne
 
 ## DEMO
 
